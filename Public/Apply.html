@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Apply for Job</title>
+</head>
+<body>
+  <h1>Apply for a Job</h1>
+  <form id="applicationForm">
+    <input type="text" id="candidateName" placeholder="Candidate Name" required>
+    <input type="text" id="jobPosition" placeholder="Job Position" required>
+    <button type="submit">Apply</button>
+  </form>
+  <script>
+    document.getElementById('applicationForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const candidateName = document.getElementById('candidateName').value;
+      const jobPosition = document.getElementById('jobPosition').value;
+
+      const response = await fetch('/api/applications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ candidateName, jobPosition })
+      });
+
+      if (response.ok) {
+        alert('Application submitted');
+      } else {
+        alert('Error submitting application');
+      }
+    });
+  </script>
+</body>
+</html>
